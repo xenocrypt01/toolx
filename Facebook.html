@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB_PhantomX v7.2.1</title>
+    <style>
+        :root {
+            --neon-blue: #0ff0fc;
+            --neon-pink: #ff2a6d;
+            --neon-purple: #d300c5;
+            --bg-dark: #0d0221;
+            --terminal-bg: #000;
+            --glow: 0 0 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Courier New', monospace;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--neon-blue);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Cyberpunk grid overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(13, 2, 33, 0.9), rgba(13, 2, 33, 0.9)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path d="M0 0h40v40H0z" fill="none"/><path d="M20 0v40M0 20h40" stroke="%23ff2a6d" stroke-width="0.5" opacity="0.2"/></svg>');
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            border: 1px solid var(--neon-blue);
+            border-radius: 0;
+            box-shadow: 
+                var(--glow) var(--neon-blue),
+                inset var(--glow) var(--neon-blue);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.95; }
+            100% { opacity: 1; }
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.3;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px var(--neon-blue);
+            color: var(--neon-blue);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .input-section {
+            margin: 1.5rem 0;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+        }
+
+        .cyber-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-blue);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .cyber-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .btn-hack {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-hack:hover {
+            background: rgba(255, 42, 109, 0.2);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .btn-hack::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 42, 109, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-hack:hover::before {
+            left: 100%;
+        }
+
+        .terminal {
+            background: var(--terminal-bg);
+            border: 1px solid var(--neon-blue);
+            padding: 1rem;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .terminal-line {
+            animation: type 0.1s steps(40, end);
+            white-space: pre-wrap;
+        }
+
+        @keyframes type {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--neon-purple);
+        }
+    </style>
+</head>
+<body>
+     
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <header>
+            <h1>FB_HACK</h1>
+            <p class="subtitle">v3.2.1 | Advanced hack for Facebook spy tool</p>
+        </header>
+
+        <div class="input-section">
+            <label class="input-label">TARGET USERNAME/EMAIL</label>
+            <input type="text" id="targetInput" class="cyber-input" placeholder="victim@facebook.com">
+        </div>
+
+        <div class="input-section" id="apiSection" style="display: none;">
+            <label class="input-label">AUTH KEY</label>
+            <input type="password" id="authKey" class="cyber-input" placeholder="PH4N70M-X-XXXX-XXXX">
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <button class="btn-hack" id="hackButton" onclick="initiateHack()">INITIATE SEQUENCE</button>
+
+        <div class="terminal" id="terminalOutput"></div>
+
+        <footer>
+            WARNING: Unauthorized access is prohibited by international law | © 2025 Mr Smile Modders
+        </footer>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminalOutput');
+        let hackStage = 0;
+
+        function logTerminal(message) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.textContent = '> ' + message;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function initiateHack() {
+            const target = document.getElementById('targetInput').value.trim();
+            const apiSection = document.getElementById('apiSection');
+            const hackButton = document.getElementById('hackButton');
+
+            if (hackStage === 0) {
+                if (!target) {
+                    logTerminal("ERROR: No target specified");
+                    return;
+                }
+                logTerminal("TARGET ACQUIRED: " + target);
+                logTerminal("REQUESTING AUTHENTICATION...");
+                apiSection.style.display = 'block';
+                hackButton.textContent = "AUTHENTICATE";
+                hackStage = 1;
+            } else if (hackStage === 1) {
+                const authKey = document.getElementById('authKey').value.trim();
+                if (!authKey.startsWith("Mr5mile~")) {
+                    logTerminal("AUTH FAILED: Invalid key format");
+                    return;
+                }
+                startHackSequence(target);
+            }
+        }
+
+        function startHackSequence(target) {
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const hackButton = document.getElementById('hackButton');
+
+            hackButton.disabled = true;
+            progressContainer.style.display = 'block';
+
+            const stages = [
+                { progress: 15, message: "BYPassing FIREWALL..." },
+                { progress: 30, message: "INJECTING PAYLOAD..." },
+                { progress: 50, message: "DECRYPTING TOKENS..." },
+                { progress: 70, message: "ACCESSING DATABASE..." },
+                { progress: 85, message: "EXFILTRATING DATA..." },
+                { progress: 100, message: `SUCCESS! ACCESS GRANTED TO ${target.toUpperCase()}` }
+            ];
+
+            stages.forEach((stage, index) => {
+                setTimeout(() => {
+                    progressBar.style.width = stage.progress + '%';
+                    logTerminal(stage.message);
+                    if (index === stages.length - 1) {
+                        hackButton.textContent = "SEQUENCE COMPLETE";
+                        logTerminal("SESSION TOKEN: FB_" + Math.random().toString(36).substr(2, 16).toUpperCase());
+                    }
+                }, index * 1500);
+            });
+        }
+    </script>
+</body>
+</html>
