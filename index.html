@@ -1,66 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Ban Review</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name | Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #6c63ff;
+      --secondary-color: #00c9a7;
+      --bg-light: #f9f9f9;
+      --bg-dark: #121212;
+      --text-light: #eee;
+      --text-dark: #1a1a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      transition: all 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    .dark-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .highlight {
+      background: white;
+      color: var(--primary-color);
+      padding: 0 10px;
+      border-radius: 8px;
+    }
+
+    .hero h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 25px;
+      color: #ffffffdd;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      font-size: 16px;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary-color);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #f1f1f1;
+    }
+
+    .btn-secondary {
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary-color);
+    }
+
+    .hero-image {
+      margin-top: 40px;
+    }
+
+    .hero-image img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        flex-direction: row;
+        text-align: left;
+        padding: 80px;
+      }
+
+      .hero-content {
+        flex: 1;
+        padding-right: 40px;
+      }
+
+      .hero-image {
+        flex: 1;
+        margin-top: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="video-background">
-        <video autoplay muted loop>
-            <source src="background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Hi, I'm <span class="highlight">MR SMILE</span></h1>
+      <h2>Full-Stack Developer | Open-Source Enthusiast</h2>
+      <p>I build scalable, performant, and beautiful web applications.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="project.html" download class="btn-secondary">continue</a>
+      </div>
     </div>
-    <div class="container">
-        <header>
-            <h1>WhatsApp Ban Review</h1>
-            <p>Get your account unbanned with our pre-written review template.</p>
-        </header>
-        <div class="review-box">
-            <div class="review-content">
-                <p id="review-text">
-                    Dear WhatsApp Support Team,  
-
-                    I hope this message finds you well. I am writing to formally appeal the recent ban on my WhatsApp account (Phone Number: [Your Number]). I believe this action was taken in error, as I have always adhered strictly to WhatsApp’s Terms of Service and Community Guidelines.  
-
-                    **Reason for Appeal:**  
-                    - I have not engaged in any prohibited activities such as spamming, harassment, or sharing inappropriate content.  
-                    - My account usage has been strictly personal, with no involvement in bulk messaging or automated systems.  
-                    - If my account was flagged due to a misunderstanding, I kindly request a thorough review of my activity logs.  
-
-                    **Additional Information:**  
-                    - I rely heavily on WhatsApp for communication with family, friends, and work-related matters.  
-                    - The sudden restriction has caused significant inconvenience, and I would greatly appreciate your assistance in resolving this issue promptly.  
-
-                    **Request:**  
-                    Please investigate this matter and restore my account access at the earliest convenience. If further verification is required, I am happy to provide any necessary details.  
-
-                    Thank you for your time and understanding. I look forward to your positive response.  
-
-                    Best regards,  
-                    [Your Full Name]  
-                    [Your Email Address (if applicable)]  
-                </p>
-            </div>
-            <div class="review-actions">
-                <button id="copy-btn" class="btn"><i class="fas fa-copy"></i> Copy</button>
-                <button id="send-btn" class="btn"><i class="fas fa-paper-plane"></i> Send Now</button>
-            </div>
-        </div>
-        <div class="channels">
-            <h2>Join Our Channels</h2>
-            <div class="channel-buttons">
-                <a href="https://whatsapp.com/channel/0029VaesBAXJJhzefVszDu3h" class="channel-btn">Channel 1</a>
-                <a href="https://whatsapp.com/channel/0029Vb5xVOsEwEjtbacVuA0e" class="channel-btn">Channel 2</a>
-            </div>
-        </div>
+    <div class="hero-image">
+      <img src="https://files.catbox.moe/5z7kj2.png" alt="MR SMILE">
     </div>
-    <footer>
-        <p>© 2025 Mr. Smile Modders. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+  </section>
+
+    
+  </script>
 </body>
 </html>
