@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Instagram Hack Simulator v1.0 - Pentest Tool</title>
+    <style>
+        :root {
+            --primary: #E1306C; /* Instagram gradient pink */
+            --secondary: #F56040; /* Instagram gradient orange */
+            --bg: #121212; /* Dark theme */
+            --card-bg: #1E1E1E;
+            --text: #FFFFFF;
+            --terminal-bg: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(45deg, #833AB4, #E1306C, #F56040);
+            z-index: -2;
+            opacity: 0.1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(225, 48, 108, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            margin-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .input-group {
+            margin: 1rem 0;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: transparent;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .action-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(225, 48, 108, 0.1);
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            width: 100%;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Terminal-style result box */
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--terminal-bg);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .result::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .result::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        footer {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <header>
+            <h1>Instagram Hack Simulator v2.0</h1>
+            <p>For Authorized hacking Only</p>
+        </header>
+
+        <div class="input-group">
+            <input type="text" id="usernameInput" class="input-field" placeholder="Target Instagram Username (e.g., @example)" />
+            <input type="text" id="apiKeyInput" class="input-field" placeholder="API Key" style="display: none;" />
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <button class="action-btn" id="startButton" onclick="requestApiKey()">Start Pentest</button>
+
+        <div class="result" id="resultBox"></div>
+    </div>
+
+    <footer>
+        © 2025 Mr smile | Use only with explicit authorization.
+    </footer>
+
+    <script>
+        function requestApiKey() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const apiInput = document.getElementById('apiKeyInput');
+            const startBtn = document.getElementById('startButton');
+            const resultBox = document.getElementById('resultBox');
+
+            if (!username) {
+                resultBox.textContent = "⚠️ Please enter a valid Instagram username.";
+                resultBox.style.opacity = 1;
+                return;
+            }
+
+            resultBox.textContent = "🔑 Enter your API Key to continue.";
+            resultBox.style.opacity = 1;
+            apiInput.style.display = 'block';
+            startBtn.textContent = "Continue Pentest";
+            startBtn.onclick = startPentest;
+        }
+
+        function startPentest() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const apiKey = document.getElementById('apiKeyInput').value.trim();
+            const resultBox = document.getElementById('resultBox');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+
+            if (!apiKey.startsWith("INSTA~")) {
+                resultBox.textContent = "❌ Invalid API Key. Access Denied.";
+                resultBox.style.opacity = 1;
+                return;
+            }
+
+            progressContainer.style.display = 'block';
+            resultBox.textContent = "🔍 Verifying API Key...";
+            resultBox.style.opacity = 1;
+            progressBar.style.width = '20%';
+
+            setTimeout(() => {
+                resultBox.textContent += "\n🔐 API Key Validated. Targeting @" + username + "...";
+                progressBar.style.width = '40%';
+            }, 2000);
+
+            setTimeout(() => {
+                resultBox.textContent += "\n📡 Bypassing Instagram API rate limits...";
+                progressBar.style.width = '60%';
+            }, 4000);
+
+            setTimeout(() => {
+                resultBox.textContent += "\n📂 Extracting user data (posts, DMs, followers)...";
+                progressBar.style.width = '80%';
+            }, 6000);
+
+            setTimeout(() => {
+                const accessToken = "IG-" + Math.random().toString(36).substring(2, 15).toUpperCase();
+                resultBox.textContent += `\n✅ Pentest Completed for @${username}.\n\n🔑 Access Token: ${accessToken}\n⚠️ This is a simulation. No real data was accessed.`;
+                progressBar.style.width = '100%';
+            }, 8000);
+        }
+    </script>
+</body>
+</html>
+          
